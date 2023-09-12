@@ -2,37 +2,79 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+ul {
+  padding: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+li {
+  margin: 5px;
+  list-style: none;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+header {
+  position: fixed;
+  left: 25vw;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  /* justify-content: center; */
 }
 
-.App-link {
-  color: #61dafb;
+.category-list {
+  position: relative;
+  top: 150px;
+  display: flex;
+  margin: 20px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.card {
+  max-width: fit-content;
+  padding: 10px;
+  margin: 10px 0px;
+  outline: auto 3px black;
+  box-shadow: 5px 8px 10px rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
 }
+
+.category-card, .checklist-card {
+  position: relative;
+  background-color: rgb(235, 214, 174);
+  margin: 20px;
+  min-width: 400px;
+  max-width: fit-content;
+  z-index: 1;
+}
+
+.thing-card {
+  position: relative;
+  background-color: rgb(225, 234, 177);
+  min-width: 360px;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.details-card {
+  position: fixed;
+  background-color: rgb(225, 234, 177);
+  margin: 20px;
+  min-width: 450px;
+  max-width: fit-content;
+  min-height: 200px;
+  top: 50%; /* Vertically center the element */
+  left: 50%; /* Horizontally center the element */
+  transform: translate(-50%, -50%); /* Center the element exactly */
+  z-index: 20;
+}
+
+.popup-bg {
+  background-color: rgba(0, 0, 0, 0.608);
+  position: fixed; /* Add this line to make the z-index work */
+  top: 0; /* You may need to adjust the position depending on your layout */
+  left: 0; /* You may need to adjust the position depending on your layout */
+  width: 100%; /* Make it cover the entire viewport */
+  height: 100%; /* Make it cover the entire viewport */
+  z-index: 10;
+}
+
+/* .checklist-card {
+} */

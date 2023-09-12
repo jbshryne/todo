@@ -1,0 +1,50 @@
+// const listSeed = [
+//   {
+//     category: "Music Clients",
+//     things: [
+//       {
+//         theThing: "Contact Cassandra D",
+//         itemId: Math.random(),
+//       },
+//       {
+//         theThing: "Try Moses S again",
+//         itemId: Math.random(),
+//       },
+//       {
+//         theThing: "Follow up w/ Nate abt Nightsong",
+//         itemId: Math.random(),
+//       },
+//     ],
+//   },
+//   {
+//     category: "The Journey",
+//     things: [
+//       {
+//         theThing: "Rebuild MTG Conclave in React",
+//         itemId: Math.random(),
+//       },
+//       {
+//         theThing: "Work on Ostara Tree budgeting app",
+//         itemId: Math.random(),
+//       },
+//     ],
+//   },
+//   {
+//     category: "The Fam",
+//     things: [
+//       {
+//         theThing: "Doordash",
+//         itemId: Math.random(),
+//       },
+//     ],
+//   },
+//   {
+//     category: "For Me",
+//     things: [
+//       {
+//         theThing: "Share SEI progress w/ Simon",
+//         itemId: Math.random(),
+//       },
+//     ],
+//   },
+// ];
