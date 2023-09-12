@@ -70,9 +70,9 @@ const theListSeed = [
     itemId: Math.random(),
     details: [
       {
-        text: "",
+        text: "Schedule dash",
         detailId: Math.random(),
-        isChecked: false,
+        isChecked: true,
       },
     ],
   },

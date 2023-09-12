@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import DetailItem from "./DetailItem";
 
-const Details = ({ selectedItem, modalOff, addDetail, deleteDetail }) => {
+const Details = ({ selectedItem, addDetail, deleteDetail, editDetail }) => {
+
   const [inputValue, setInputValue] = useState("");
 
   const onChange = (e) => {
     setInputValue(e.target.value);
   };
+
+  const handleEditDetail = (detail) => {
+    editDetail(detail, selectedItem)
+  }
 
   const handleDeleteDetail = (detailId) => {
     deleteDetail(detailId, selectedItem)
@@ -27,6 +32,7 @@ const Details = ({ selectedItem, modalOff, addDetail, deleteDetail }) => {
             detail={detail}
             key={detail.detailId}
             deleteDetail={handleDeleteDetail}
+            editDetail={handleEditDetail}
           />
         ))}
       </ul>

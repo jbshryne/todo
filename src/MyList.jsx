@@ -44,6 +44,17 @@ function MyList({ theListSeed, categorySeed }) {
     localStorage.setItem("theList", JSON.stringify(newList));
   };
 
+  const editDetail = (detail, item) => {
+    const parentItem = theList.find((i) => i.itemId === item.itemId);
+    const parentItemIndex = theList.findIndex((i) => i.itemId === item.itemId);
+    const detailIndex = parentItem.details.findIndex(d => d.detailId === detail.detailId)
+
+    const newList = [...theList];
+    newList[parentItemIndex].details[detailIndex] = detail
+    setTheList([...newList]);
+    localStorage.setItem("theList", JSON.stringify(newList));
+  }
+
   const deleteDetail = (detailId, item) => {
     const parentItem = theList.find((i) => i.itemId === item.itemId);
     const parentItemIndex = theList.findIndex((i) => i.itemId === item.itemId);
@@ -51,6 +62,7 @@ function MyList({ theListSeed, categorySeed }) {
       (detail) => detailId !== detail.detailId
     );
     parentItem.details = newDetails;
+
     const newList = [...theList];
     newList[parentItemIndex] = parentItem;
     setTheList([...newList]);
@@ -108,9 +120,9 @@ function MyList({ theListSeed, categorySeed }) {
           <div className="popup-bg" name="modal-bg" onClick={modalOff} />
           <Details
             selectedItem={detailsShown}
-            modalOff={modalOff}
             addDetail={addDetail}
             deleteDetail={deleteDetail}
+            editDetail={editDetail}
           />
         </>
       )}

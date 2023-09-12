@@ -1,12 +1,20 @@
 import React, { useState } from "react";
 
-const DetailItem = ({ detail, deleteDetail }) => {
+const DetailItem = ({ detail, deleteDetail, editDetail }) => {
   const [showDeleteBtn, setShowDeleteBtn] = useState(false);
+  const [isChecked, setIsChecked] = useState(detail.isChecked);
 
   const onClick = (e) => {
     if (e.target.name === "delete-btn") {
       deleteDetail(detail.detailId);
-    } 
+    }
+  };
+
+  const toggleChecked = (e) => {
+    console.log("toggleChecked runs");
+    console.log(detail)
+    setIsChecked(!isChecked);
+    editDetail({ ...detail, isChecked: !detail.isChecked });
   };
 
   const onMouseOver = () => {
@@ -23,8 +31,14 @@ const DetailItem = ({ detail, deleteDetail }) => {
       onMouseOut={onMouseOut}
       style={{ position: "relative" }}
     >
-      <input name={detail.detailId} type="checkbox"></input>
-      <label htmlFor={detail.detailId}>{detail.text}</label>
+      <label>
+        <input
+          type="checkbox"
+          checked={isChecked ? true : false}
+          onChange={toggleChecked}
+        ></input>
+        {detail.text}
+      </label>
       {showDeleteBtn ? (
         <button
           onClick={onClick}
