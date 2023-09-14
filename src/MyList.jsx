@@ -12,6 +12,7 @@ function MyList({ theListSeed, categorySeed }) {
   const [newThing, setNewThing] = useState({
     theThing: "",
     category: "",
+    details: []
   });
 
   const handleSeed = () => {
