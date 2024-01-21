@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const DetailItem = ({ detail, deleteDetail, editDetail }) => {
+const DetailItem = ({ detail, deleteDetail, editDetail, provided }) => {
   const [showDeleteBtn, setShowDeleteBtn] = useState(false);
   const [isChecked, setIsChecked] = useState(detail.isChecked);
 
@@ -11,8 +11,8 @@ const DetailItem = ({ detail, deleteDetail, editDetail }) => {
   };
 
   const toggleChecked = (e) => {
-    console.log("toggleChecked runs");
-    console.log(detail)
+    // console.log("toggleChecked runs");
+    // console.log(detail);
     setIsChecked(!isChecked);
     editDetail({ ...detail, isChecked: !detail.isChecked });
   };
@@ -27,6 +27,9 @@ const DetailItem = ({ detail, deleteDetail, editDetail }) => {
 
   return (
     <li
+      {...provided.draggableProps}
+      {...provided.dragHandleProps}
+      ref={provided.innerRef}
       onMouseOver={onMouseOver}
       onMouseOut={onMouseOut}
       style={{ position: "relative" }}
@@ -34,6 +37,7 @@ const DetailItem = ({ detail, deleteDetail, editDetail }) => {
       <label>
         <input
           type="checkbox"
+          name="checkbox"
           checked={isChecked ? true : false}
           onChange={toggleChecked}
         ></input>

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import DetailItem from "./DetailItem";
+import { Draggable, Droppable } from "react-beautiful-dnd";
 
 const Details = ({ selectedItem, addDetail, deleteDetail, editDetail }) => {
-
   const [inputValue, setInputValue] = useState("");
 
   const onChange = (e) => {
@@ -10,12 +10,12 @@ const Details = ({ selectedItem, addDetail, deleteDetail, editDetail }) => {
   };
 
   const handleEditDetail = (detail) => {
-    editDetail(detail, selectedItem)
-  }
+    editDetail(detail, selectedItem);
+  };
 
   const handleDeleteDetail = (detailId) => {
-    deleteDetail(detailId, selectedItem)
-  }
+    deleteDetail(detailId, selectedItem);
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -26,16 +26,30 @@ const Details = ({ selectedItem, addDetail, deleteDetail, editDetail }) => {
   let checkList;
   if (selectedItem.details[0]) {
     checkList = (
-      <ul>
-        {selectedItem.details.map((detail) => (
-          <DetailItem
-            detail={detail}
-            key={detail.detailId}
-            deleteDetail={handleDeleteDetail}
-            editDetail={handleEditDetail}
-          />
-        ))}
-      </ul>
+      <Droppable droppableId={selectedItem.itemId}>
+        {(provided) => (
+          <ul {...provided.droppableProps} ref={provided.innerRef}>
+            {selectedItem.details.map((detail, idx) => (
+              <Draggable
+                key={detail.detailId}
+                draggableId={detail.detailId.toString()}
+                index={idx}
+              >
+                {(provided) => (
+                  <DetailItem
+                    provided={provided}
+                    detail={detail}
+                    key={detail.detailId}
+                    deleteDetail={handleDeleteDetail}
+                    editDetail={handleEditDetail}
+                  />
+                )}
+              </Draggable>
+            ))}
+            {provided.placeholder}
+          </ul>
+        )}
+      </Droppable>
     );
   }
 

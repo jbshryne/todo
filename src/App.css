@@ -37,11 +37,12 @@ header {
   border-radius: 10px;
 }
 
-.category-card, .checklist-card {
+.category-card,
+.checklist-card {
   position: relative;
   background-color: rgb(235, 214, 174);
   margin: 20px;
-  min-width: 400px;
+  min-width: 270px;
   max-width: fit-content;
   z-index: 1;
 }
@@ -49,9 +50,9 @@ header {
 .thing-card {
   position: relative;
   background-color: rgb(225, 234, 177);
-  min-width: 360px;
+  min-width: 240px;
   cursor: pointer;
-  z-index: 2;
+  z-index: 5;
 }
 
 .details-card {
@@ -76,6 +77,3 @@ header {
   height: 100%; /* Make it cover the entire viewport */
   z-index: 10;
 }
-
-/* .checklist-card {
-} */
