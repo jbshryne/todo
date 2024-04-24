@@ -1,4 +1,4 @@
-import "./App.css";
+// import "./App.css";
 import { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import ListItem from "./components/ListItem";
@@ -40,19 +40,6 @@ function MyList({ theListSeed, categorySeed }) {
     return Object.values(categoryMap).flat();
   };
 
-  const handleSeed = () => {
-    // setTheList(theListSeed);
-    setCategoryMap(
-      theListSeed.reduce((acc, item) => {
-        acc[item.category] = acc[item.category] || [];
-        acc[item.category].push(item);
-        return acc;
-      }, {})
-    );
-
-    localStorage.setItem("theList", JSON.stringify(theListSeed));
-  };
-
   const addCategory = (category) => {
     console.log("addCategory runs, category:", category);
 
@@ -60,10 +47,6 @@ function MyList({ theListSeed, categorySeed }) {
     const newCategoryMap = { ...categoryMap };
     newCategoryMap[category] = [];
     setCategoryMap(newCategoryMap);
-    // localStorage.setItem(
-    //   "theList",
-    //   JSON.stringify(getFlattenedList(newCategoryMap))
-    // );
     setCategories([...categories, category]);
     localStorage.setItem(
       "categories",
@@ -76,10 +59,6 @@ function MyList({ theListSeed, categorySeed }) {
     const newCategoryMap = { ...categoryMap };
     delete newCategoryMap[category];
     setCategoryMap(newCategoryMap);
-    // localStorage.setItem(
-    //   "theList",
-    //   JSON.stringify(getFlattenedList(newCategoryMap))
-    // );
     setCategories(categories.filter((c) => c !== category));
     localStorage.setItem(
       "categories",
@@ -91,10 +70,6 @@ function MyList({ theListSeed, categorySeed }) {
   };
 
   const addItem = (item) => {
-    // const newList = [...theList, item];
-    // setTheList(newList);
-    // localStorage.setItem("theList", JSON.stringify(newList));
-
     console.log("addItem runs, item:", item);
 
     const newCategoryMap = { ...categoryMap };
@@ -109,10 +84,6 @@ function MyList({ theListSeed, categorySeed }) {
   };
 
   const deleteItem = (itemId, category) => {
-    // const newList = [...theList].filter((item) => item.itemId !== itemId);
-    // setTheList(newList);
-    // localStorage.setItem("theList", JSON.stringify(newList));
-
     const newCategoryMap = { ...categoryMap };
     console.log(itemId);
     newCategoryMap[category] = newCategoryMap[category].filter(
@@ -126,17 +97,6 @@ function MyList({ theListSeed, categorySeed }) {
   };
 
   const addDetail = (detail, item) => {
-    // const newList = [
-    //   ...theList,
-    //   item.details.push({
-    //     text: detail,
-    //     detailId: Math.random(),
-    //     isChecked: false,
-    //   }),
-    // ];
-    // setTheList(newList);
-    // localStorage.setItem("theList", JSON.stringify(newList));
-
     const newCategoryMap = { ...categoryMap };
     const updatedItem = { ...item };
     updatedItem.details.push({
@@ -155,17 +115,6 @@ function MyList({ theListSeed, categorySeed }) {
   };
 
   const editDetail = (detail, item) => {
-    // const parentItem = theList.find((i) => i.itemId === item.itemId);
-    // const parentItemIndex = theList.findIndex((i) => i.itemId === item.itemId);
-    // const detailIndex = parentItem.details.findIndex(
-    //   (d) => d.detailId === detail.detailId
-    // );
-
-    // const newList = [...theList];
-    // newList[parentItemIndex].details[detailIndex] = detail;
-    // setTheList([...newList]);
-    // localStorage.setItem("theList", JSON.stringify(newList));
-
     const newCategoryMap = { ...categoryMap };
     const updatedItem = { ...item };
     const detailIndex = updatedItem.details.findIndex(
@@ -185,17 +134,6 @@ function MyList({ theListSeed, categorySeed }) {
   };
 
   const deleteDetail = (detailId, item) => {
-    // const parentItem = theList.find((i) => i.itemId === item.itemId);
-    // const parentItemIndex = theList.findIndex((i) => i.itemId === item.itemId);
-    // const newDetails = parentItem.details.filter(
-    //   (detail) => detailId !== detail.detailId
-    // );
-    // parentItem.details = newDetails;
-    // const newList = [...theList];
-    // newList[parentItemIndex] = parentItem;
-    // setTheList([...newList]);
-    // localStorage.setItem("theList", JSON.stringify(newList));
-
     const newCategoryMap = { ...categoryMap };
     const updatedItem = { ...item };
     const detailIndex = updatedItem.details.findIndex(
@@ -266,13 +204,6 @@ function MyList({ theListSeed, categorySeed }) {
     }
 
     if (type === "group") {
-      // const newList = [...theList];
-      // const [removed] = newList.splice(source.index, 1);
-      // newList.splice(destination.index, 0, removed);
-      // setTheList(newList);
-      // localStorage.setItem("theList", JSON.stringify(newList));
-      // return;
-
       const newCategoryMap = { ...categoryMap };
       const sourceCategory = categoryMap[source.droppableId];
       const destinationCategory = categoryMap[destination.droppableId];
@@ -391,7 +322,6 @@ function MyList({ theListSeed, categorySeed }) {
               </select>
               <button>Add The Thing</button>
             </form>
-            <button onClick={handleSeed}>Re-Seed The List</button>{" "}
           </header>
           <div className="scroll-box">
             <ul className="category-list">{categoryList}</ul>

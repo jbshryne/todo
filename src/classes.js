@@ -7,6 +7,15 @@ export class Thing {
   }
 }
 
+export class Task {
+  constructor(content, category) {
+    this.id = `${content}_${Math.random()}`;
+    this.content = content;
+    this.columnIdx = category;
+    this.details = [];
+  }
+}
+
 export class Detail {
   constructor(text, isChecked = false) {
     this.detailId = Math.random();

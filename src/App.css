@@ -29,7 +29,7 @@ header {
 }
 
 .card {
-  max-width: fit-content;
+  /* max-width: fit-content; */
   padding: 10px;
   margin: 10px 0px;
   outline: auto 3px black;
@@ -42,15 +42,15 @@ header {
   position: relative;
   background-color: rgb(235, 214, 174);
   margin: 20px;
-  min-width: 270px;
-  max-width: fit-content;
-  z-index: 1;
+  min-width: 250px;
+  /* max-width: fit-content; */
+  /* z-index: 1; */
 }
 
 .thing-card {
   position: relative;
-  background-color: rgb(225, 234, 177);
-  min-width: 240px;
+  /* background-color: rgb(225, 234, 177); */
+  width: 240px;
   cursor: pointer;
   z-index: 5;
 }

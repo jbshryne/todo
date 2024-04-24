@@ -18,6 +18,7 @@ const DetailItem = ({ detail, deleteDetail, editDetail, provided }) => {
   };
 
   const onMouseOver = () => {
+    console.log(detail);
     setShowDeleteBtn(true);
   };
 
@@ -27,9 +28,9 @@ const DetailItem = ({ detail, deleteDetail, editDetail, provided }) => {
 
   return (
     <li
-      {...provided.draggableProps}
-      {...provided.dragHandleProps}
-      ref={provided.innerRef}
+      // {...provided.draggableProps}
+      // {...provided.dragHandleProps}
+      // ref={provided.innerRef}
       onMouseOver={onMouseOver}
       onMouseOut={onMouseOut}
       style={{ position: "relative" }}

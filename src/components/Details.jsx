@@ -25,43 +25,46 @@ const Details = ({ selectedItem, addDetail, deleteDetail, editDetail }) => {
 
   let checkList;
   if (selectedItem.details[0]) {
+    console.log(selectedItem.details);
     checkList = (
-      <Droppable droppableId={selectedItem.itemId}>
-        {(provided) => (
-          <ul {...provided.droppableProps} ref={provided.innerRef}>
-            {selectedItem.details.map((detail, idx) => (
-              <Draggable
-                key={detail.detailId}
-                draggableId={detail.detailId.toString()}
-                index={idx}
-              >
-                {(provided) => (
-                  <DetailItem
-                    provided={provided}
-                    detail={detail}
-                    key={detail.detailId}
-                    deleteDetail={handleDeleteDetail}
-                    editDetail={handleEditDetail}
-                  />
-                )}
-              </Draggable>
-            ))}
-            {provided.placeholder}
-          </ul>
-        )}
-      </Droppable>
+      // <Droppable droppableId={selectedItem.itemId}>
+      //   {(provided) => (
+      <ul
+      // {...provided.droppableProps} ref={provided.innerRef}
+      >
+        {selectedItem.details.map((detail, idx) => (
+          // <Draggable
+          //   key={detail.detailId}
+          //   draggableId={detail.detailId.toString()}
+          //   index={idx}
+          // >
+          //   {(provided) => (
+          <DetailItem
+            // provided={provided}
+            detail={detail}
+            key={detail.detailId}
+            deleteDetail={handleDeleteDetail}
+            editDetail={handleEditDetail}
+          />
+        ))}
+        {/* // </Draggable> */}
+        {/* // } */}
+        {/* {provided.placeholder} */}
+      </ul>
+      // )}
+      // </Droppable>
     );
   }
 
   return (
     <div name="details" className="card details-card">
-      <h2>{selectedItem.theThing}</h2>
+      <h2>{selectedItem.content}</h2>
       <form onSubmit={onSubmit}>
         <input
           onChange={onChange}
           type="text"
           value={inputValue}
-          name="theThing"
+          name="detail"
           placeholder="What's one detail?"
         />
         <button>Add Detail</button>
