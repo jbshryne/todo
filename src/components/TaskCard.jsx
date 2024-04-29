@@ -15,7 +15,6 @@ const TaskCard = ({
       //   console.log(item);
       deleteItem(item.id, category);
     } else {
-      console.log("onClick runs");
       modalOn(item);
     }
   };

@@ -88,7 +88,7 @@ function App() {
   };
 
   const modalOn = (item) => {
-    console.log("modalOn runs", item);
+    // console.log("modalOn runs", item);
     setDetailsShown(item);
   };
 
@@ -111,6 +111,12 @@ function App() {
 
   const deleteItem = (itemId, category) => {
     console.log(itemId, category);
+
+    const confirmation = window.confirm(
+      "Are you sure you want to delete this task?"
+    );
+
+    if (!confirmation) return;
 
     const newColumns = columns.map((column, idx) => {
       // eslint-disable-next-line
@@ -141,6 +147,12 @@ function App() {
   };
 
   const deleteDetail = (detailId, selectedItem) => {
+    const confirmation = window.confirm(
+      "Are you sure you want to delete this detail?"
+    );
+
+    if (!confirmation) return;
+
     const newColumns = columns.map((column) => {
       column.items = column.items.map((item) => {
         if (item.id === selectedItem.id) {
@@ -163,6 +175,7 @@ function App() {
           item.details = item.details.map((d) => {
             if (d.detailId === detail.detailId) {
               d.text = detail.text;
+              d.isChecked = detail.isChecked;
             }
             return d;
           });

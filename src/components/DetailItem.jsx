@@ -11,14 +11,11 @@ const DetailItem = ({ detail, deleteDetail, editDetail, provided }) => {
   };
 
   const toggleChecked = (e) => {
-    // console.log("toggleChecked runs");
-    // console.log(detail);
     setIsChecked(!isChecked);
-    editDetail({ ...detail, isChecked: !detail.isChecked });
+    editDetail({ ...detail, isChecked: !isChecked });
   };
 
   const onMouseOver = () => {
-    console.log(detail);
     setShowDeleteBtn(true);
   };
 

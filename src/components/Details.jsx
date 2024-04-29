@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import DetailItem from "./DetailItem";
-import { Draggable, Droppable } from "react-beautiful-dnd";
+// import { Draggable, Droppable } from "react-beautiful-dnd";
 
 const Details = ({ selectedItem, addDetail, deleteDetail, editDetail }) => {
   const [inputValue, setInputValue] = useState("");
@@ -10,6 +10,7 @@ const Details = ({ selectedItem, addDetail, deleteDetail, editDetail }) => {
   };
 
   const handleEditDetail = (detail) => {
+    console.log(detail, selectedItem);
     editDetail(detail, selectedItem);
   };
 
@@ -25,7 +26,7 @@ const Details = ({ selectedItem, addDetail, deleteDetail, editDetail }) => {
 
   let checkList;
   if (selectedItem.details[0]) {
-    console.log(selectedItem.details);
+    // console.log(selectedItem.details);
     checkList = (
       // <Droppable droppableId={selectedItem.itemId}>
       //   {(provided) => (
