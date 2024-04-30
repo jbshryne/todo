@@ -2,6 +2,13 @@
   text-align: center;
 }
 
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 ul {
   padding: 0;
 }
@@ -21,6 +28,44 @@ header {
   /* justify-content: center; */
 }
 
+.form-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  width: fit-content;
+}
+
+.input-form {
+  margin: 10px 0;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+.select-form {
+  margin: 10px 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+.submit-btn {
+  padding: 5px 10px;
+  color: white;
+  background-color: #0066cc;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.submit-btn:hover {
+  background-color: #004a99;
+}
+
 .category-list {
   position: relative;
   top: 150px;
@@ -29,7 +74,6 @@ header {
 }
 
 .card {
-  /* max-width: fit-content; */
   padding: 10px;
   margin: 10px 0px;
   outline: auto 3px black;
@@ -41,16 +85,14 @@ header {
 .checklist-card {
   position: relative;
   background-color: rgb(235, 214, 174);
-  margin: 20px;
-  min-width: 250px;
-  /* max-width: fit-content; */
-  /* z-index: 1; */
+  margin: 10px;
+  min-width: 260px;
 }
 
 .thing-card {
   position: relative;
   /* background-color: rgb(225, 234, 177); */
-  width: 240px;
+  width: 230px;
   cursor: pointer;
   z-index: 5;
 }

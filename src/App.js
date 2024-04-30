@@ -206,24 +206,32 @@ function App() {
         <h1 className="App-header" style={{ textAlign: "center" }}>
           Things About Which I Should Stop Procrastinating
         </h1>
-        <form onSubmit={onSubmit}>
-          <input
-            onChange={onChange}
-            value={newTask.content}
-            type="text"
-            name="content"
-            placeholder="New Task?"
-          />
-          <select onChange={onChange} name="category" value={newTask.category}>
-            <option value="">Category:</option>
-            {columns.map((column, idx) => (
-              <option key={idx} value={idx}>
-                {column.name}
-              </option>
-            ))}
-          </select>
-          <button>Add this task</button>
-        </form>
+        <div className="form-wrapper card">
+          <form onSubmit={onSubmit}>
+            <input
+              className="input-form"
+              onChange={onChange}
+              value={newTask.content}
+              type="text"
+              name="content"
+              placeholder="New Task?"
+            />
+            <select
+              className="select-form"
+              onChange={onChange}
+              name="category"
+              value={newTask.category}
+            >
+              <option value="">Category:</option>
+              {columns.map((column, idx) => (
+                <option key={idx} value={idx}>
+                  {column.name}
+                </option>
+              ))}
+            </select>
+            <button className="submit-btn">Add this task</button>
+          </form>
+        </div>
         {/* </header> */}
         <div
           style={{ display: "flex", justifyContent: "center", height: "100%" }}
@@ -254,7 +262,6 @@ function App() {
                               background: snapshot.isDraggingOver
                                 ? "rgb(205, 185, 144)"
                                 : "rgb(225, 214, 174)",
-                              padding: 4,
                               width: 272,
                               minHeight: 436,
                               borderRadius: "5px",
