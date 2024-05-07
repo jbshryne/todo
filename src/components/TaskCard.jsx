@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import ModalInput from "./ModalInput";
 
 const TaskCard = ({
   provided,
@@ -7,14 +8,17 @@ const TaskCard = ({
   deleteItem,
   category,
   modalOn,
+  columnIdx,
+  taskIdx,
+  setValue,
 }) => {
   const [showDeleteBtn, setShowDeleteBtn] = useState(false);
 
   const onClick = (e) => {
     if (e.target.name === "delete-btn") {
-      //   console.log(item);
       deleteItem(item.id, category);
-    } else {
+    } else if (e.target.name === "task-name") console.log("task name clicked");
+    else {
       modalOn(item);
     }
   };
@@ -25,6 +29,10 @@ const TaskCard = ({
 
   const onMouseOut = () => {
     setShowDeleteBtn(false);
+  };
+
+  const setTaskName = (value) => {
+    setValue(value, taskIdx, columnIdx);
   };
 
   return (
@@ -46,7 +54,11 @@ const TaskCard = ({
         ...provided.draggableProps.style,
       }}
     >
-      {item.content}
+      <ModalInput
+        name="task-name"
+        value={item.content}
+        setValue={setTaskName}
+      />
       {showDeleteBtn ? (
         <button
           name="delete-btn"

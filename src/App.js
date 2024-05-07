@@ -4,6 +4,7 @@ import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import TaskCard from "./components/TaskCard";
 import { Task, Detail } from "./classes";
 import Details from "./components/Details";
+import ModalInput from "./components/ModalInput";
 
 const tasks = [
   { id: "1", content: "First task" },
@@ -188,6 +189,33 @@ function App() {
     localStorage.setItem("columns", JSON.stringify(newColumns));
   };
 
+  const setColumnName = (name, columnIdx) => {
+    const newColumns = columns.map((column, idx) => {
+      if (columnIdx === idx) {
+        column.name = name;
+      }
+      return column;
+    });
+    setColumns([...newColumns]);
+    localStorage.setItem("columns", JSON.stringify(newColumns));
+  };
+
+  const setTaskName = (name, taskIdx, columnIdx) => {
+    const newColumns = columns.map((column, idx) => {
+      if (columnIdx === idx) {
+        column.items = column.items.map((item, idx) => {
+          if (taskIdx === idx) {
+            item.content = name;
+          }
+          return item;
+        });
+      }
+      return column;
+    });
+    setColumns([...newColumns]);
+    localStorage.setItem("columns", JSON.stringify(newColumns));
+  };
+
   return (
     <div>
       {/* <header> */}
@@ -237,9 +265,8 @@ function App() {
           style={{ display: "flex", justifyContent: "center", height: "100%" }}
         >
           <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
-            {columns.map((column, idx) => {
-              const columnId = idx.toString();
-              // console.log("columnId", columnId, "column", column);
+            {columns.map((column, columnIdx) => {
+              const columnId = columnIdx.toString();
               return (
                 <div
                   className="card category-card"
@@ -250,7 +277,15 @@ function App() {
                   }}
                   key={columnId}
                 >
-                  <h2>{column.name}</h2>
+                  {/* <h2>{column.name}</h2> */}
+                  <h2>
+                    <ModalInput
+                      name="category"
+                      value={column.name}
+                      setValue={setColumnName}
+                      idx={columnIdx}
+                    />
+                  </h2>
                   <div>
                     <Droppable droppableId={columnId} key={columnId}>
                       {(provided, snapshot) => {
@@ -267,22 +302,25 @@ function App() {
                               borderRadius: "5px",
                             }}
                           >
-                            {column.items.map((item, index) => {
+                            {column.items.map((item, taskIdx) => {
                               return (
                                 <Draggable
                                   key={item.id}
                                   draggableId={item.id}
-                                  index={index}
+                                  index={taskIdx}
                                 >
                                   {(provided, snapshot) => {
                                     return (
                                       <TaskCard
+                                        columnIdx={columnIdx}
+                                        taskIdx={taskIdx}
                                         deleteItem={deleteItem}
                                         modalOn={modalOn}
                                         provided={provided}
                                         snapshot={snapshot}
                                         item={item}
                                         category={columnId}
+                                        setValue={setTaskName}
                                       />
                                     );
                                   }}

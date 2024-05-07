@@ -33,11 +33,11 @@ const Details = ({ selectedItem, addDetail, deleteDetail, editDetail }) => {
       <ul
       // {...provided.droppableProps} ref={provided.innerRef}
       >
-        {selectedItem.details.map((detail, idx) => (
+        {selectedItem.details.map((detail, detailIdx) => (
           // <Draggable
           //   key={detail.detailId}
           //   draggableId={detail.detailId.toString()}
-          //   index={idx}
+          //   index={detailIdx}
           // >
           //   {(provided) => (
           <DetailItem

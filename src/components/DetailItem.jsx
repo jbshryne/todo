@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import ModalInput from "./ModalInput";
 
 const DetailItem = ({ detail, deleteDetail, editDetail, provided }) => {
   const [showDeleteBtn, setShowDeleteBtn] = useState(false);
@@ -11,6 +12,7 @@ const DetailItem = ({ detail, deleteDetail, editDetail, provided }) => {
   };
 
   const toggleChecked = (e) => {
+    // e.stopPropagation();
     setIsChecked(!isChecked);
     editDetail({ ...detail, isChecked: !isChecked });
   };
@@ -23,6 +25,11 @@ const DetailItem = ({ detail, deleteDetail, editDetail, provided }) => {
     setShowDeleteBtn(false);
   };
 
+  const handleEditDetail = (e) => {
+    console.log(e);
+    editDetail({ ...detail, text: e });
+  };
+
   return (
     <li
       // {...provided.draggableProps}
@@ -30,17 +37,22 @@ const DetailItem = ({ detail, deleteDetail, editDetail, provided }) => {
       // ref={provided.innerRef}
       onMouseOver={onMouseOver}
       onMouseOut={onMouseOut}
-      style={{ position: "relative" }}
+      style={{ position: "relative", display: "flex" }}
     >
-      <label>
+      <label style={{ display: "flex", width: "fit-content" }}>
         <input
           type="checkbox"
           name="checkbox"
-          checked={isChecked ? true : false}
-          onChange={toggleChecked}
+          defaultChecked={isChecked}
+          onClick={toggleChecked}
+          style={{ width: "fit-content" }}
         ></input>
-        {detail.text}
       </label>
+      <ModalInput
+        name="detail"
+        value={detail.text}
+        setValue={handleEditDetail}
+      />
       {showDeleteBtn ? (
         <button
           onClick={onClick}
