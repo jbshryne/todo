@@ -39,6 +39,9 @@ const ModalInput = ({ name, value, setValue, checklist, idx }) => {
   const handleInputKeyDown = (e) => {
     if (e.key === "Enter") {
       handleSetValue(e);
+    } else if (e.key === "Escape") {
+      setCurrentValue(value);
+      setIsEditing(false);
     }
   };
 
