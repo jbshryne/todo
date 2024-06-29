@@ -54,24 +54,21 @@ const TaskCard = ({
         ...provided.draggableProps.style,
       }}
     >
-      <ModalInput
-        name="task-name"
-        value={item.content}
-        setValue={setTaskName}
-      />
-      {showDeleteBtn ? (
-        <button
-          name="delete-btn"
-          style={{
-            position: "absolute",
-            right: 0,
-          }}
-        >
-          X
-        </button>
-      ) : (
-        ""
-      )}
+      <ModalInput name="task-name" value={item.content} setValue={setTaskName}>
+        {showDeleteBtn ? (
+          <button
+            name="delete-btn"
+            style={{
+              position: "absolute",
+              right: 0,
+            }}
+          >
+            X
+          </button>
+        ) : (
+          ""
+        )}{" "}
+      </ModalInput>
     </div>
   );
 };

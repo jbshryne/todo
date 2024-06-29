@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const ModalInput = ({ name, value, setValue, checklist, idx }) => {
+const ModalInput = ({ children, name, value, setValue, checklist, idx }) => {
   const [currentValue, setCurrentValue] = useState(value);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -65,6 +65,7 @@ const ModalInput = ({ name, value, setValue, checklist, idx }) => {
           {value || "Click to add"}
         </div>
       )}
+      {children}
     </div>
   );
 };
