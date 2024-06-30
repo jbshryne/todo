@@ -68,7 +68,7 @@ if (localStorage.getItem("todo-categories")) {
 
 async function getCategories() {
   const response = await fetch(
-    "http://localhost:3443/categories/" + currentUser.username
+    process.env.REACT_APP_API_URL + "/categories/" + currentUser.username
   );
   const resObject = await response.json();
   // console.log(resObject);
@@ -151,7 +151,9 @@ function App() {
     localStorage.setItem("todo-categories", JSON.stringify(columns));
 
     const response = await fetch(
-      "http://localhost:3443/update-category-order/" + currentUser.username,
+      process.env.REACT_APP_API_URL +
+        "/update-category-order/" +
+        currentUser.username,
       {
         method: "PUT",
         headers: {
