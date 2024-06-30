@@ -11,12 +11,13 @@ const TaskCard = ({
   columnIdx,
   taskIdx,
   setValue,
+  subjectId,
 }) => {
   const [showDeleteBtn, setShowDeleteBtn] = useState(false);
 
   const onClick = (e) => {
     if (e.target.name === "delete-btn") {
-      deleteItem(item.id, category);
+      deleteItem(item._id, category);
     } else if (e.target.name === "task-name") console.log("task name clicked");
     else {
       modalOn(item);
@@ -32,7 +33,7 @@ const TaskCard = ({
   };
 
   const setTaskName = (value) => {
-    setValue(value, taskIdx, columnIdx);
+    setValue(value, subjectId);
   };
 
   return (

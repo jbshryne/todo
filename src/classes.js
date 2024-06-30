@@ -1,8 +1,8 @@
 export class Task {
-  constructor(content, category) {
+  constructor(content) {
     this.id = `${content}_${Math.random()}`;
     this.content = content; // to phase out
-    this.columnIdx = category;
+    // this.columnIdx = category;
     this.details = [];
     this.subjectName = content;
   }

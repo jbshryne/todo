@@ -7,8 +7,6 @@ const ServerPoker = () => {
   const handleTest = async () => {
     setIsConnected("waiting...");
 
-    console.log(process.env.REACT_APP_API_URL);
-
     const response = await fetch(`${process.env.REACT_APP_API_URL}/hi`, {
       method: "GET",
       headers: {
@@ -17,7 +15,7 @@ const ServerPoker = () => {
     });
 
     const data = await response.json();
-    console.log(data);
+
     if (data.success) {
       setIsConnected("Connected!");
     } else {

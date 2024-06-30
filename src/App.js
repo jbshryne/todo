@@ -76,12 +76,27 @@ async function getCategories() {
 }
 
 if (currentUser) {
-  getCategories().then((categories) => {
+  getCategories().then((c) => {
     // console.log(categories);
-    const orderedCategories = categories.sort(
-      (a, b) => a.columnIdx - b.columnIdx
-    );
+    const orderedCategories = c.sort((a, b) => a.columnIdx - b.columnIdx);
     localStorage.setItem("todo-categories", JSON.stringify(orderedCategories));
+
+    // categories = JSON.parse(localStorage.getItem("todo-categories")).map(
+    //   (category, idx) => {
+    //     category.columnIdx = idx;
+    //     category.items = category.subjects.map((subject) => {
+    //       subject.content = subject.subjectName;
+    //       // subject.id = subject._id;
+    //       subject.details = subject.details.map((detail) => {
+    //         detail.text = detail.description;
+    //         detail.detailId = detail._id;
+    //         return detail;
+    //       });
+    //       return subject;
+    //     });
+    //     return category;
+    //   }
+    // );
   });
 }
 
@@ -97,7 +112,7 @@ function App() {
   const [detailsShown, setDetailsShown] = useState(null);
 
   const onChange = (e) => {
-    console.log(e.target.name, e.target.value);
+    // console.log(e.target.name, e.target.value);
     const newState = { ...newTask };
     newState[e.target.name] = e.target.value;
     setNewTask(newState);
@@ -108,9 +123,9 @@ function App() {
 
     if (!newTask.content || !newTask.category) return;
 
-    const addedTask = new Task(newTask.content, newTask.category);
+    const addedTask = new Task(newTask.content);
     console.log(addedTask);
-    addItem({ ...addedTask });
+    addItem({ ...addedTask }, newTask.category); //CHANGE CATEGORY TO COLUMNIDX
 
     setNewTask({
       content: "",
@@ -133,16 +148,16 @@ function App() {
     }
 
     setColumns([...columns]);
-    localStorage.setItem("columns", JSON.stringify(columns));
+    localStorage.setItem("todo-categories", JSON.stringify(columns));
 
     const response = await fetch(
       "http://localhost:3443/update-category-order/" + currentUser.username,
       {
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ categories: columns }),
+        body: JSON.stringify({ categories: [columns] }),
       }
     );
 
@@ -159,7 +174,7 @@ function App() {
     setDetailsShown(null);
   };
 
-  const addItem = async (subject) => {
+  const addItem = async (subject, columnIdx) => {
     console.log("subject:", subject);
 
     const response = await fetch(
@@ -167,7 +182,7 @@ function App() {
         "/new-subject/" +
         currentUser.username +
         "/" +
-        subject.columnIdx,
+        columnIdx,
       {
         method: "POST",
         headers: {
@@ -182,24 +197,10 @@ function App() {
 
     const resObject = await response.json();
     console.log(resObject);
-
-    // const newColumns = columns.map((column, idx) => {
-    //   // eslint-disable-next-line
-    //   if (idx == subject.columnIdx) {
-    //     column.subjects.push(subject);
-    //   }
-    //   return column;
-    // });
-
-    // console.log("newColumns:", newColumns);
-
-    // setColumns([...newColumns]);
-    // localStorage.setItem("columns", JSON.stringify(newColumns));
-    // localStorage.setItem("todo-categories", JSON.stringify(newColumns));
   };
 
-  const deleteItem = (itemId, category) => {
-    console.log(itemId, category);
+  const deleteItem = async (subjectId, columnIdx) => {
+    console.log(subjectId, columnIdx);
 
     const confirmation = window.confirm(
       "Are you sure you want to delete this task?"
@@ -207,74 +208,113 @@ function App() {
 
     if (!confirmation) return;
 
-    const newColumns = columns.map((column, idx) => {
-      // eslint-disable-next-line
-      if (idx == category) {
-        column.items = column.items.filter((subject) => subject._id !== itemId);
+    const response = await fetch(
+      process.env.REACT_APP_API_URL +
+        "/delete-subject/" +
+        currentUser.username +
+        "/" +
+        columnIdx,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          subjectId: subjectId,
+          description: "",
+        }),
       }
-      console.log(column);
-      return column;
-    });
-    setColumns([...newColumns]);
-    localStorage.setItem("columns", JSON.stringify(newColumns));
+    );
+
+    console.log(response);
+
+    const resObject = await response.json();
+    console.log(resObject);
   };
 
-  const addDetail = (detail, selectedItem) => {
-    // console.log(detail, selectedItem);
-    const newColumns = columns.map((column) => {
-      column.items = column.items.map((subject) => {
-        if (subject._id === selectedItem._id) {
-          subject.details.push(new Detail(detail));
+  const addDetail = async (detail, selectedItem) => {
+    console.log(detail, selectedItem);
+
+    const response = await fetch(
+      process.env.REACT_APP_API_URL + "/new-detail/" + currentUser.username,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          description: detail,
+          subjectId: selectedItem._id,
+        }),
+      }
+    );
+
+    const resObject = await response.json();
+    console.log(resObject);
+
+    // selectedItem.details.push(new Detail(detail, resObject.detailId));
+
+    setColumns((prev) => {
+      const newColumns = prev.map((column) => {
+        if (column.columnIdx === selectedItem.columnIdx) {
+          column.items = column.items.map((subject) => {
+            if (subject._id === selectedItem._id) {
+              return resObject.subject;
+            }
+          });
         }
-        // console.log(subject);
-        return subject;
+        return column;
       });
-      return column;
+      return newColumns;
     });
-    setColumns([...newColumns]);
-    localStorage.setItem("columns", JSON.stringify(newColumns));
   };
 
-  const deleteDetail = (detailId, selectedItem) => {
+  const deleteDetail = async (detailId, selectedItem) => {
     const confirmation = window.confirm(
       "Are you sure you want to delete this detail?"
     );
 
     if (!confirmation) return;
 
-    const newColumns = columns.map((column) => {
-      column.items = column.items.map((subject) => {
-        if (subject._id === selectedItem._id) {
-          subject.details = subject.details.filter(
-            (detail) => detail.detailId !== detailId
-          );
-        }
-        return subject;
-      });
-      return column;
-    });
-    setColumns([...newColumns]);
-    localStorage.setItem("columns", JSON.stringify(newColumns));
+    console.log(detailId, selectedItem);
+
+    const response = await fetch(
+      process.env.REACT_APP_API_URL + "/delete-detail/" + currentUser.username,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          detailId: detailId,
+          subjectId: selectedItem._id,
+        }),
+      }
+    );
+
+    const resObject = await response.json();
+    console.log(resObject);
   };
 
-  const editDetail = (detail, selectedItem) => {
-    const newColumns = columns.map((column) => {
-      column.items = column.items.map((subject) => {
-        if (subject._id === selectedItem._id) {
-          subject.details = subject.details.map((d) => {
-            if (d.detailId === detail.detailId) {
-              d.text = detail.text;
-              d.isChecked = detail.isChecked;
-            }
-            return d;
-          });
-        }
-        return subject;
-      });
-      return column;
-    });
-    setColumns([...newColumns]);
-    localStorage.setItem("columns", JSON.stringify(newColumns));
+  const editDetail = async (detail, selectedItem) => {
+    const response = await fetch(
+      process.env.REACT_APP_API_URL + "/update-detail/" + currentUser.username,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          detailId: detail.detailId,
+          description: detail.text,
+          isChecked: detail.isChecked,
+          subjectId: selectedItem._id,
+        }),
+      }
+    );
+
+    const resObject = await response.json();
+    console.log(resObject);
   };
 
   const setColumnName = (name, columnIdx) => {
@@ -285,23 +325,30 @@ function App() {
       return column;
     });
     setColumns([...newColumns]);
-    localStorage.setItem("columns", JSON.stringify(newColumns));
+    localStorage.setItem("todo-categories", JSON.stringify(newColumns));
   };
 
-  const setTaskName = (name, taskIdx, columnIdx) => {
-    const newColumns = columns.map((column, idx) => {
-      if (columnIdx === idx) {
-        column.items = column.items.map((subject, idx) => {
-          if (taskIdx === idx) {
-            subject.content = name;
-          }
-          return subject;
-        });
+  const setTaskName = async (name, subjectId) => {
+    const response = await fetch(
+      process.env.REACT_APP_API_URL + "/update-subject/" + currentUser.username,
+      // + "/" +
+      // columnIdx,
+
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          subjectName: name,
+          description: "",
+          subjectId: subjectId,
+        }),
       }
-      return column;
-    });
-    setColumns([...newColumns]);
-    localStorage.setItem("columns", JSON.stringify(newColumns));
+    );
+
+    const resObject = await response.json();
+    console.log(resObject);
   };
 
   return (
@@ -418,6 +465,7 @@ function App() {
                                             item={subject}
                                             category={columnId}
                                             setValue={setTaskName}
+                                            subjectId={subject._id}
                                           />
                                         );
                                       }}
