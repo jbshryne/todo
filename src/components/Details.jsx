@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import DetailItem from "./DetailItem";
 // import { Draggable, Droppable } from "react-beautiful-dnd";
 
-const Details = ({ selectedItem, addDetail, deleteDetail, editDetail }) => {
+const Details = ({ selectedSubject, addDetail, deleteDetail, editDetail }) => {
   const [inputValue, setInputValue] = useState("");
 
   const onChange = (e) => {
@@ -10,30 +10,33 @@ const Details = ({ selectedItem, addDetail, deleteDetail, editDetail }) => {
   };
 
   const handleEditDetail = (detail) => {
-    console.log(detail, selectedItem);
-    editDetail(detail, selectedItem);
+    // console.log(detail, selectedSubject);
+    editDetail(detail, selectedSubject);
   };
 
   const handleDeleteDetail = (detailId) => {
-    deleteDetail(detailId, selectedItem);
+    deleteDetail(detailId, selectedSubject);
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    addDetail(inputValue, selectedItem);
+    addDetail(inputValue, selectedSubject);
     setInputValue("");
   };
 
   let checkList;
-  if (selectedItem.details[0]) {
-    // console.log(selectedItem.details);
+
+  // console.log(selectedSubject);
+
+  if (selectedSubject.details[0]) {
+    // console.log(selectedSubject.details);
     checkList = (
-      // <Droppable droppableId={selectedItem.itemId}>
+      // <Droppable droppableId={selectedSubject.itemId}>
       //   {(provided) => (
       <ul
       // {...provided.droppableProps} ref={provided.innerRef}
       >
-        {selectedItem.details.map((detail, detailIdx) => (
+        {selectedSubject.details?.map((detail, detailIdx) => (
           // <Draggable
           //   key={detail.detailId}
           //   draggableId={detail.detailId.toString()}
@@ -43,7 +46,7 @@ const Details = ({ selectedItem, addDetail, deleteDetail, editDetail }) => {
           <DetailItem
             // provided={provided}
             detail={detail}
-            key={detail.detailId}
+            key={detailIdx}
             deleteDetail={handleDeleteDetail}
             editDetail={handleEditDetail}
           />
@@ -59,7 +62,7 @@ const Details = ({ selectedItem, addDetail, deleteDetail, editDetail }) => {
 
   return (
     <div name="details" className="card details-card">
-      <h2>{selectedItem.content}</h2>
+      <h2>{selectedSubject.content}</h2>
       <form onSubmit={onSubmit}>
         <input
           onChange={onChange}

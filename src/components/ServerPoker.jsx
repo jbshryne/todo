@@ -1,11 +1,11 @@
 import { useState } from "react";
 
-const ServerPoker = () => {
-  const [isConnected, setIsConnected] = useState("");
+const ServerPoker = ({ setIsConnected }) => {
   const [isHidden, setIsHidden] = useState(false);
+  const [connectionMessage, setConnectionMessage] = useState("");
 
   const handleTest = async () => {
-    setIsConnected("waiting...");
+    setConnectionMessage("waiting...");
 
     const response = await fetch(`${process.env.REACT_APP_API_URL}/hi`, {
       method: "GET",
@@ -17,9 +17,11 @@ const ServerPoker = () => {
     const data = await response.json();
 
     if (data.success) {
-      setIsConnected("Connected!");
+      setConnectionMessage("Connected!");
+      setIsConnected(true);
     } else {
-      setIsConnected("Not connected");
+      setConnectionMessage("Not connected");
+      setIsConnected(false);
     }
   };
 
@@ -27,12 +29,12 @@ const ServerPoker = () => {
     <section style={{ display: "flex" }}>
       {isHidden ? null : (
         <>
-          {isConnected === "Connected!" ? (
+          {connectionMessage === "Connected!" ? (
             <button onClick={() => setIsHidden(true)}>Hide</button>
           ) : (
             <button onClick={handleTest}>Test API Connection</button>
           )}
-          <p className="status-box">{isConnected}</p>
+          <p className="status-box">{connectionMessage}</p>
         </>
       )}
     </section>

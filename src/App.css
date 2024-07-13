@@ -1,5 +1,12 @@
 .App {
   text-align: center;
+  margin: 0 auto;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  width: fit-content;
 }
 
 main {
@@ -7,6 +14,7 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: fit-content; /* Shrink to fit content */
 }
 
 ul {
@@ -19,13 +27,13 @@ li {
 }
 
 header {
-  position: fixed;
-  margin: auto;
+  /* position: fixed; */
+  margin: auto 0;
   left: 28vw;
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* justify-content: center; */
+  justify-content: center;
 }
 
 .status-box {
@@ -80,10 +88,11 @@ header {
 }
 
 .category-list {
-  position: relative;
-  top: 150px;
   display: flex;
-  margin: 20px;
+  overflow-x: auto;
+  width: 100%;
+  justify-content: space-between;
+  align-items: space-between;
 }
 
 .card {

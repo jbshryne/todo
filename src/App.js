@@ -49,7 +49,8 @@ if (localStorage.getItem("todo-categories")) {
   categories = JSON.parse(localStorage.getItem("todo-categories")).map(
     (category, idx) => {
       category.columnIdx = idx;
-      category.items = category.subjects.map((subject) => {
+      // removing question mark currently breaks the app
+      category.items = category.subjects?.map((subject) => {
         subject.content = subject.subjectName;
         // subject.id = subject._id;
         subject.details = subject.details.map((detail) => {

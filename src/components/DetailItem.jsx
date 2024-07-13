@@ -3,7 +3,7 @@ import ModalInput from "./ModalInput";
 
 const DetailItem = ({ detail, deleteDetail, editDetail, provided }) => {
   const [showDeleteBtn, setShowDeleteBtn] = useState(false);
-  const [isChecked, setIsChecked] = useState(detail.isChecked);
+  const [isChecked, setIsChecked] = useState(detail.isChecked || false);
 
   const onClick = (e) => {
     if (e.target.name === "delete-btn") {
@@ -27,7 +27,7 @@ const DetailItem = ({ detail, deleteDetail, editDetail, provided }) => {
 
   const handleEditDetail = (e) => {
     console.log(e);
-    editDetail({ ...detail, text: e });
+    editDetail({ ...detail, description: e });
   };
 
   return (
@@ -50,7 +50,7 @@ const DetailItem = ({ detail, deleteDetail, editDetail, provided }) => {
       </label>
       <ModalInput
         name="detail"
-        value={detail.text}
+        value={detail.description}
         setValue={handleEditDetail}
       />
       {showDeleteBtn ? (

@@ -4,12 +4,13 @@ import ModalInput from "./ModalInput";
 const TaskCard = ({
   provided,
   snapshot,
-  item,
+  subject,
   deleteItem,
   category,
   modalOn,
   columnIdx,
   taskIdx,
+  value,
   setValue,
   subjectId,
 }) => {
@@ -17,10 +18,10 @@ const TaskCard = ({
 
   const onClick = (e) => {
     if (e.target.name === "delete-btn") {
-      deleteItem(item._id, category);
+      deleteItem(subject._id, category);
     } else if (e.target.name === "task-name") console.log("task name clicked");
     else {
-      modalOn(item);
+      modalOn(subject);
     }
   };
 
@@ -55,7 +56,7 @@ const TaskCard = ({
         ...provided.draggableProps.style,
       }}
     >
-      <ModalInput name="task-name" value={item.content} setValue={setTaskName}>
+      <ModalInput name="task-name" value={value} setValue={setTaskName}>
         {showDeleteBtn ? (
           <button
             name="delete-btn"

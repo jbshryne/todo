@@ -29,6 +29,7 @@ const ModalInput = ({ children, name, value, setValue, checklist, idx }) => {
 
   const handleInputFocus = (e) => {
     e.stopPropagation();
+    setCurrentValue(value);
     setIsEditing(true);
   };
 
